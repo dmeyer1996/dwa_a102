@@ -1344,38 +1344,44 @@ def watbal(*study_areas):
         cat3_sum_of_col = cat3.sum(axis=0)
         area_percent=area/100
         B_percent=Bafs63/100
-        print('Sum of Surface Area with Category 1:',cat1_sum_of_col['Area'],'(m²) making up',round(cat1_sum_of_col['Area']/area_percent),'% of surface area, with a b_afs63 runoff of 280(kg/ha*a)')
-        print('Sum of Particle Runoff (kg/a) from Surface Area with Category 1:',cat1_sum_of_col['Bafs63'],'making up',round(cat1_sum_of_col['Bafs63']/B_percent),'% of contaminated runoff')
-        print('____________________')
-        print('Sum of Surface Area with Category 2:', cat2_sum_of_col['Area'],'(m²) making up',round(cat2_sum_of_col['Area']/area_percent),'% of surface area, with a b_afs63 runoff of 530(kg/ha*a)')
-        print('Sum of Particle Runoff in (kg/a) from Surface Area with Category 2:', cat2_sum_of_col['Bafs63'],'making up',round(cat2_sum_of_col['Bafs63']/B_percent),'% of contaminated runoff')
-        print('____________________')
-        print('Sum of Surface Area with Category 3:', cat3_sum_of_col['Area'],'(m²) making up',round(cat3_sum_of_col['Area']/area_percent),'% of surface area, with a b_afs63 runoff of 760(kg/ha*a)')
-        print('Sum of Particle Runoff (kg/a) from Surface Area with Category 3:', cat3_sum_of_col['Bafs63'],'making up',round(cat3_sum_of_col['Bafs63']/B_percent),'% of contaminated runoff')
-        print('____________________')
+        if cat1_sum_of_col['Area'] != 0:
+            print('Sum of Surface Area with Category 1:',cat1_sum_of_col['Area'],'(m²) making up',round(cat1_sum_of_col['Area']/area_percent),'% of surface area, with a b_afs63 runoff of 280(kg/ha*a)')
+            print('Sum of Particle Runoff (kg/a) from Surface Area with Category 1:',cat1_sum_of_col['Bafs63'],'making up',round(cat1_sum_of_col['Bafs63']/B_percent),'% of contaminated runoff')
+            print('____________________')
+        if cat2_sum_of_col['Area'] !=0:
+            print('Sum of Surface Area with Category 2:', cat2_sum_of_col['Area'],'(m²) making up',round(cat2_sum_of_col['Area']/area_percent),'% of surface area, with a b_afs63 runoff of 530(kg/ha*a)')
+            print('Sum of Particle Runoff in (kg/a) from Surface Area with Category 2:', cat2_sum_of_col['Bafs63'],'making up',round(cat2_sum_of_col['Bafs63']/B_percent),'% of contaminated runoff')
+            print('____________________')
+        if cat3_sum_of_col['Area'] != 0:
+            print('Sum of Surface Area with Category 3:', cat3_sum_of_col['Area'],'(m²) making up',round(cat3_sum_of_col['Area']/area_percent),'% of surface area, with a b_afs63 runoff of 760(kg/ha*a)')
+            print('Sum of Particle Runoff (kg/a) from Surface Area with Category 3:', cat3_sum_of_col['Bafs63'],'making up',round(cat3_sum_of_col['Bafs63']/B_percent),'% of contaminated runoff')
+            print('____________________')
 
         #surface specific AFS63 runoff in KG/h(a*a) for the entire surveyed area aswell as calculation of needed treament
         b_afs63_tot=Bafs63/(area/10000)
         nu=max(0,1-(280/b_afs63_tot))*100
         print('Surface specific AFS63 runoff  for the entire surveyed area:',round((b_afs63_tot),1),'in kg/(ha*a)')
+        print('____________________')
         if round((b_afs63_tot),1) > 280:
-            print( round((b_afs63_tot), 1),'> 280 (kg/ha*a)')
+            print('Attention:', round((b_afs63_tot), 1),'> 280 (kg/ha*a)')
             print('Treament with atleast',round((nu),3),'% efficiency needed before runoff can enter body of surface water')
+            print('____________________')
 
         return(sys_results)
-
-kassel = StudyArea(location="Kassel")
-
-#import shapefile streets
-streets_gdf=gpd.read_file('C:/Users/Daniel/Documents/BA/pre/DWA-a102-main/DWA-a102-main/shapefiles/streets.shp')
-streets=kassel.flat_area(area=getArea(streets_gdf),su='V2')
-
-#import shapefile parcels
-parcels_gdf=gpd.read_file('C:/Users/Daniel/Documents/BA/pre/DWA-a102-main/DWA-a102-main/shapefiles/parcels.shp')
-parcels=kassel.garden(area=getArea(parcels_gdf))
-
-#import shapefile buildings
-buildings_gdf=gpd.read_file('C:/Users/Daniel/Documents/BA/pre/DWA-a102-main/DWA-a102-main/shapefiles/buildings.shp')
-buildings=kassel.roof(area=getArea(buildings_gdf),su='SD1')
-
-print(watbal(buildings, parcels, streets))
+#Code used in the jupyter notebook examplein chapter 2.4
+#
+#kassel = StudyArea(location="Kassel")
+#
+##import shapefile streets
+#streets_gdf=gpd.read_file('C:/Users/Daniel/Documents/BA/pre/DWA-a102-main/DWA-a102-main/shapefiles/streets.shp')
+#streets=kassel.flat_area(area=getArea(streets_gdf),su='V2')
+#
+##import shapefile parcels
+#parcels_gdf=gpd.read_file('C:/Users/Daniel/Documents/BA/pre/DWA-a102-main/DWA-a102-main/shapefiles/parcels.shp')
+#parcels=kassel.garden(area=getArea(parcels_gdf))
+#
+##import shapefile buildings
+#buildings_gdf=gpd.read_file('C:/Users/Daniel/Documents/BA/pre/DWA-a102-main/DWA-a102-main/shapefiles/buildings.shp')
+#buildings=kassel.roof(area=getArea(buildings_gdf),su='SD1')
+#
+#print(watbal(buildings, parcels, streets))

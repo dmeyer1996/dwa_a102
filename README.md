@@ -5,3 +5,5 @@ Now features particle load AFS63 as part of the water balance calculation.
 
 All the relevant methods to apply the water balance can be found in the file dwa_a102.py
 The additional python files contain functions that are required by dwa_a102.py.
+
+Important: directory for the code using the .shp files must be changed before use
